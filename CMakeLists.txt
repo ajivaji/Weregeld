@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.24)
 project(Weregeld)
 
-set(CMAKE_CXX_STANDARD 17)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Debug")
+endif ()
 
-add_executable(Weregeld src/main.cpp src/Classes/Person.cpp src/Classes/Location.cpp src/Classes/Connection.cpp)
+set(CMAKE_CXX_STANDARD 17)
+include_directories(src/Classes)
+add_executable(Weregeld src/main.cpp)

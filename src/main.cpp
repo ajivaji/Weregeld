@@ -1,30 +1,24 @@
-#include <iostream>
 #include <vector>
-#include <memory>
-#include <string>
-#include <ostream>
-#include "Classes/Location.h"
-#include "Classes/Person.h"
-#include "Classes/Connection.h"
-
-
-int main() {
-	return 0;
-}
 
 namespace WG {
 
-void Game() {
-	auto* location1 = new Location("Home", "You are at home");
-	auto* location2 = new Location("Work", "You are at work");
+	class Game {
+	public:
+		Game();
+		void StartGame();
+	private:
+		Character player;
+};
 
-	Connection connection(location1, location2, "Walk");
+int main() {
+	WG::Game game;
+	game.StartGame();
 
-	Person person("John", location1);
-
-
+	return 0;
 }
 
-}
+
+
+
 
 
