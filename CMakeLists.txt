@@ -7,4 +7,4 @@ endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 include_directories(src/Classes)
-add_executable(Weregeld src/main.cpp)
+add_executable(Weregeld src/main.cpp src/Classes/Character.cpp src/Classes/Location.cpp)
