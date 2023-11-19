@@ -9,13 +9,6 @@
 
 class Character {
 public:
-	Character() {
-		initCharacter();
-	}
-
-	void initCharacter() {
-
-	}
 
 	void setName(const std::string& name);
 private:
