@@ -1,17 +1,20 @@
 //
 // Created by ajivaji on 11/18/2023.
 //
+
 #include "Actions.h"
+#include "GameData.h"
 
 namespace WG {
 	void doGo(const std::string &locationName, gameData *data) {
-		/*if(!data->currentLocation->hasConnection(locationName)) {
+		if(!data->currentLocation->hasConnection(locationName)) {
 			std::cout << "You can't go there!" << std::endl;
 			return;
 		}
-		Location* newLocation = data->currentLocation.getConnection(locationName);
+		Location* newLocation = data->currentLocation->getConnection(locationName);
+		assert(newLocation != nullptr);
 		data->currentLocation = newLocation;
-		std::cout << "You went to " << newLocation.getSubjectName() << std::endl;*/
+		std::cout << "You went to " << newLocation->getSubjectName() << std::endl;
 		if(locationName == "north") {
 			std::cout << "You went north" << std::endl;
 		}
