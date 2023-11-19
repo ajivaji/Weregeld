@@ -20,5 +20,4 @@ public:
 	void setName(const std::string& name);
 private:
 	std::string characterName;
-	Location currentLocation;
 };
