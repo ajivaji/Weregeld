@@ -5,7 +5,6 @@
 #pragma once
 
 #include <string>
-#include "Location.h"
 
 class Character {
 public:

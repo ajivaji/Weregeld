@@ -51,6 +51,14 @@ std::vector<int> Location::getConnectedLocationsIDs() {
 	return connectedLocationsIDs;
 }
 
-std::map<std::string, std::vector<std::string>> Location::getActionActionablesmap() {
-	return actionActionablesmap;
+Location::Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName, std::string locationDescription) {
+	this->locationID = locationID;
+	this->connectedLocationsIDs = connectedIDs;
+	this->locationName = locationName;
+	this->subjectName = subjectName;
+	this->locationDescription = locationDescription;
 }
+
+/*std::map<std::string, std::vector<std::string>> Location::getActionActionablesmap() {
+	return actionActionablesmap;
+}*/

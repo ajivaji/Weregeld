@@ -1,9 +1,19 @@
 //
 // Created by ajivaji on 11/18/2023.
 //
+#include <algorithm>
+#include <iostream>
 #include "Game.h"
+#include "../../include/Actions.h"
 
 namespace WG {
+
+	typedef void (*action)(const std::string&, gameData*);
+	void doGo(const std::string &locationName, gameData *data);
+	void doLook(const std::string &objectName, gameData *data);
+	void doTake(const std::string &objectName, gameData *data);
+	void doDrop(const std::string &objectName, gameData *data);
+	void doInventory(const std::string &objectName, gameData *data);
 
 	Game::Game() {
 		initGame();
@@ -15,25 +25,41 @@ namespace WG {
 		std::cout << "What is your name?" << std::endl;
 		std::getline(std::cin, userInput);
 		player.setName(userInput);
+		_gameData = new gameData;
 		//in the future, this will be replaced with a file reader that will read in the locations from a file and create them with their own maps
 		//the actionActionablesmap and actions map will be read in from the current location
 
-		_gameData->actionActionablesmap = {
+		/*_gameData->actionActionablesmap = {
 				{"go",        {"north", "south", "east", "west"}},
 				{"look",      {"north", "south", "east", "west", "around"}},
 				{"take",      {"item1", "item2", "item3"}},
 				{"drop",      {"item1", "item2", "item3"}},
 				{"inventory", {}},
 				{"quit",      {}}
-		};
+		};*/
 
 		_gameData->actions = {
-				{"go",        doGo},
-				{"look",      doLook},
-				{"take",      doTake},
-				{"drop",      doDrop},
-				{"inventory", doInventory},
+				{"go",        &doGo},
+				{"look",      &doLook},
+				//{"inspect"},  &doInspect},
+				{"take",      &doTake},
+				{"drop",      &doDrop},
+				{"inventory", &doInventory}
 		};
+
+		_gameData->locations = {
+				new Location(1, {2, 3}, "Location1", "the first location", "item1"),
+				new Location(2, {1, 3}, "Location2", "the second location", "item2"),
+				new Location(3, {1, 2}, "Location3", "the third location", "item3")
+		};
+
+		for(const auto& location : _gameData->locations) {
+			for(const auto& id : location->getConnectedLocationsIDs()) {
+				location->connectLocation(_gameData->locations[id - 1]);
+			}
+		}
+
+		_gameData->currentLocation = _gameData->locations[0];
 
 	}
 
@@ -69,6 +95,7 @@ namespace WG {
 				std::cout << "Are you sure you want to quit?" << std::endl;
 				std::cout << "Y/N" << std::endl;
 				std::getline(std::cin, userInput);
+				userInput = std::toupper(userInput[0]);
 				if (userInput == "Y") {
 					std::cout << "Goodbye!" << std::endl;
 					return;
@@ -78,10 +105,6 @@ namespace WG {
 			}
 			if (inputArguments.empty() || inputArguments.size() > 2) {
 				std::cout << "Invalid input. Try again." << std::endl;
-				continue;
-			}
-			if (_gameData->actionActionablesmap.find(inputArguments[0]) == _gameData->actionActionablesmap.end()) {
-				std::cout << "This is not a valid action." << std::endl;
 				continue;
 			}
 			//actions[actionArgument](inputArguments[1], actionActionablesmap[actionArgument]);

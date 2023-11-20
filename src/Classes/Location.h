@@ -10,6 +10,8 @@
 
 class Location {
 public:
+	Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName, std::string locationDescription);
+
 	std::string getLocationName();
 
 	std::string getSubjectName();
@@ -28,7 +30,7 @@ public:
 
 	std::vector<int> getConnectedLocationsIDs();
 
-	std::map<std::string, std::vector<std::string>> getActionActionablesmap();
+	//std::map<std::string, std::vector<std::string>> getActionActionablesmap();
 
 private:
 	std::vector<Location*> connectedLocations;
@@ -37,5 +39,5 @@ private:
 	std::string locationName;
 	std::string locationDescription;
 	std::string subjectName;
-	std::map<std::string, std::vector<std::string>> actionActionablesmap;
+	//std::map<std::string, std::vector<std::string>> actionActionablesmap;
 };

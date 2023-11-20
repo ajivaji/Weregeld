@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include <cassert>
 #include <string>
-#include "Location.h"
-#include "Game.h"
-#include "GameData.h"
+
 
 namespace WG {
+
+	struct gameData;
+
 	void doGo(const std::string &locationName, gameData *data);
 
 	void doLook(const std::string &objectName, gameData *data);

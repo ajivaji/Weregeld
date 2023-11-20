@@ -4,15 +4,10 @@
 
 #pragma once
 
+
 #include <vector>
 #include <string>
-#include <map>
-#include <iostream>
-#include <algorithm>
 #include "Character.h"
-#include "Location.h"
-#include "../../include/Actions.h"
-#include "../../include/JSONReader.h"
 #include "../../include/GameData.h"
 
 namespace WG {

@@ -4,17 +4,14 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
-#include <map>
-#include "Character.h"
 #include "Location.h"
-#include "Actions.h"
 
+namespace WG {
 struct gameData {
-	typedef void (*action)(const std::string&, gameData*);
-	Location* currentLocation{};
-	std::vector<Location*> locations;
+	typedef void (*action)(const std::string &, gameData *);
+
+	Location *currentLocation{};
+	std::vector<Location *> locations;
 	std::map<std::string, std::vector<std::string>> actionActionablesmap;
 	std::map<std::string, action> actions;
-};
+};}
