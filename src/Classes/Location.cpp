@@ -2,6 +2,7 @@
 // Created by ajivaji on 11/16/2023.
 //
 
+#include <algorithm>
 #include "Location.h"
 
 std::string Location::getLocationName() {
@@ -32,7 +33,9 @@ Location *Location::getConnection(const std::string &locationName) {
 
 void Location::connectLocation(Location *location) {
 	connectedLocations.push_back(location);
-	connectedLocationsIDs.push_back(location->getLocationID());
+	if (std::find(connectedLocationsIDs.begin(), connectedLocationsIDs.end(), location->getLocationID()) == connectedLocationsIDs.end()) {
+		connectedLocationsIDs.push_back(location->getLocationID());
+	}
 }
 
 void Location::disconnectLocation(Location *location) {

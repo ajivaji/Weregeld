@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Game.h"
 #include "../../include/Actions.h"
+#include "../../include/JSONReader.h"
 
 namespace WG {
 
@@ -26,8 +27,6 @@ namespace WG {
 		std::getline(std::cin, userInput);
 		player.setName(userInput);
 		_gameData = new gameData;
-		//in the future, this will be replaced with a file reader that will read in the locations from a file and create them with their own maps
-		//the actionActionablesmap and actions map will be read in from the current location
 
 		/*_gameData->actionActionablesmap = {
 				{"go",        {"north", "south", "east", "west"}},
@@ -47,18 +46,12 @@ namespace WG {
 				{"inventory", &doInventory}
 		};
 
-		_gameData->locations = {
-				new Location(1, {2, 3}, "Location1", "the first location", "item1"),
-				new Location(2, {1, 3}, "Location2", "the second location", "item2"),
-				new Location(3, {1, 2}, "Location3", "the third location", "item3")
-		};
-
-		for(const auto& location : _gameData->locations) {
-			for(const auto& id : location->getConnectedLocationsIDs()) {
-				location->connectLocation(_gameData->locations[id - 1]);
+		readLocationsJSONFile(_gameData);
+		for (auto &location : _gameData->locations) {
+			for (auto &locationID : location->getConnectedLocationsIDs()) {
+				location->connectLocation(_gameData->locations[locationID - 1]);
 			}
 		}
-
 		_gameData->currentLocation = _gameData->locations[0];
 
 	}
