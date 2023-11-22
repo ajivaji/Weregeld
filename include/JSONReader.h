@@ -6,7 +6,7 @@
 
 #include <fstream>
 #include "../external/nlohmann-json/json.hpp"
-#include "../src/Classes/Location.h"
+#include "Objects/Location.h"
 #include "GameData.h"
 
 

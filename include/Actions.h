@@ -5,19 +5,20 @@
 #pragma once
 
 #include <string>
+#include "../Classes/Objects/Object.h"
 
 
 namespace WG {
 
 	struct gameData;
 
-	void doGo(const std::string &locationName, gameData *data);
+	void doGo(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 
-	void doLook(const std::string &objectName, gameData *data);
+	void doLook(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 
-	void doTake(const std::string &objectName, gameData *data);
+	void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 
-	void doDrop(const std::string &objectName, gameData *data);
+	void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 
-	void doInventory(const std::string &objectName, gameData *data);
+	void doInventory(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 }

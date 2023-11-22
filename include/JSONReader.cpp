@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "JSONReader.h"
-#include "../src/Classes/Location.h"
+#include "Objects/Location.h"
 
 namespace WG {
 	void readLocationsJSONFile(gameData *data) {
@@ -40,12 +40,12 @@ namespace WG {
 
 	std::string writeLocationJSONString(Location *location) {
 		nlohmann::json locationJSON;
-		locationJSON["locationName"] = location->getLocationName();
-		locationJSON["locationDescription"] = location->getLocationDescription();
+		locationJSON["locationName"] = location->getObjectName();
+		locationJSON["locationDescription"] = location->getObjectDescription();
 		locationJSON["subjectName"] = location->getSubjectName();
-		locationJSON["locationID"] = location->getLocationID();
+		locationJSON["locationID"] = location->getObjectID();
 		locationJSON["connectedLocationsIDs"] = location->getConnectedLocationsIDs();
-		//locationJSON["actionActionablesmap"] = location->getActionActionablesmap();
+		//locationJSON["actionObjectIndirectObjectMap"] = location->getActionActionablesmap();
 
 		return locationJSON.dump();
 	}

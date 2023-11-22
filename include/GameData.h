@@ -4,14 +4,18 @@
 
 #pragma once
 
-#include "Location.h"
+#include "Objects/Location.h"
 
 namespace WG {
 struct gameData {
-	typedef void (*action)(const std::string &, gameData *);
+	typedef void (*action)(gameData *, Object*, Object*);
 
 	Location *currentLocation{};
-	std::vector<Location *> locations;
-	std::map<std::string, std::vector<std::string>> actionActionablesmap;
+	std::vector<Object*> localObjects;
+	std::vector<Object*> inventoryObjects;
+	std::vector<Location*> locations;
+	std::map<std::string, std::vector<std::map<std::string, std::vector<std::string>>>> actionObjectIndirectObjectMap;
+	//          action name,                      object name,       indirect object name
 	std::map<std::string, action> actions;
-};}
+};
+}

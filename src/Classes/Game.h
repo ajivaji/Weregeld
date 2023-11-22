@@ -20,9 +20,9 @@ public:
 
 	std::vector<std::string> getInput(std::string &userInput);
 
-	void doAction(const std::vector<std::string> &inputArgs, const std::vector<std::string> &actionableNames);
+	void doAction(const std::vector<std::string> &inputArgs);
 
-	void startGame();
+	void playGame();
 
 	~Game();
 
