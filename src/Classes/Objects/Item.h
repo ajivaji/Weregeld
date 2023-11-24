@@ -4,7 +4,15 @@
 
 #pragma once
 
+#include "Object.h"
 
-class Item {
+namespace WG {
+class Item : public Object {
+public:
+	Item(const int& objectID, std::string objectName, std::string objectDescription, std::string subjectName);
+
+private:
 
 };
+
+}
