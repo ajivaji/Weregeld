@@ -5,6 +5,7 @@
 #pragma once
 
 #include "Objects/Location.h"
+#include "Objects/Item.h"
 
 namespace WG {
 struct gameData {
@@ -12,7 +13,7 @@ struct gameData {
 
 	Location *currentLocation{};
 	std::vector<Object*> localObjects;
-	std::vector<Object*> inventoryObjects;
+	std::vector<Item*> items;
 	std::vector<Location*> locations;
 	std::map<std::string, std::vector<std::map<std::string, std::vector<std::string>>>> actionObjectIndirectObjectMap;
 	//          action name,                      object name,       indirect object name

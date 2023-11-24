@@ -45,6 +45,11 @@ void Game::initGame() {
 			location->connectLocation(_gameData->locations[locationID - 1]);
 		}
 	}
+
+	auto item = new Item(1, "Paper", "A piece of paper.", "the paper");
+	_gameData->items.push_back(item);
+	writeItemsJSONFile(_gameData);
+
 	_gameData->currentLocation = _gameData->locations[0];
 
 }
@@ -63,22 +68,25 @@ std::vector<std::string> Game::getInput(std::string &userInput) {
 	return inputArguments;
 }
 
-void Game::doAction(const std::vector<std::string> &inputArgs) {
+void Game::doAction(std::vector<std::string> &inputArgs) {
 
-	//change this.keep a vector of objects in the current location
+	//keep a vector of objects in the current location
 	//each object has a map<string, vector<string>> for each action and indirect object
 
-	//first look for valid action
-	//then parse input looking for an object name
-	//pass action
+	bool foundObject = false;
+	Object* object = nullptr;
+	Object* indirObject = nullptr;
+
+	if(std::find(inputArgs.begin(), inputArgs.end(), "inventory") != inputArgs.end()) {
+		inputArgs[0] = "inventory";
+		_gameData->actions[inputArgs[0]](_gameData, object, indirObject);
+	}
 
 	if (_gameData->actions.find(inputArgs[0]) == _gameData->actions.end()) {
 		std::cout << "You can't do that." << std::endl;
 		return;
 	}
-	bool foundObject = false;
-	Object* object = nullptr;
-	Object* indirObject = nullptr;
+
 	int foundObjectIndex = -1;
 	if(inputArgs.size() > 1) {
 		for (int i = 1; i < inputArgs.size(); i++) {
@@ -101,7 +109,7 @@ void Game::doAction(const std::vector<std::string> &inputArgs) {
 		}
 	}
 
-	std::cout << "You did it!" << std::endl;
+	//std::cout << "You did it!" << std::endl;
 	_gameData->actions[inputArgs[0]](_gameData, object, indirObject);
 
 }

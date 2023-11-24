@@ -15,9 +15,7 @@ public:
 	Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName,
 	         std::string locationDescription);
 
-	bool hasConnection(Object *queriedLocation);
-
-	Location *getConnection(const std::string &basicString);
+	bool hasConnection(Location *queriedLocation);
 
 	void connectLocation(Location *location);
 
@@ -32,8 +30,8 @@ public:
 	Object *getObject(const std::string &basicString);
 
 private:
-	std::vector<Location *> connectedLocations;
 	std::vector<int> connectedLocationsIDs;
+	std::vector<Location*> connectedLocations;
 
 	std::vector<Object *> objects;
 	std::vector<int> objectIDs;

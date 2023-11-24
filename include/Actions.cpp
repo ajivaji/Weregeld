@@ -12,18 +12,21 @@
 
 namespace WG {
 	void doGo(gameData *data, Object* object, Object* indirectObject) {
-		if(data->currentLocation == object) {
-			std::cout << "You are already there!" << std::endl;
-			return;
-		}
-		if(!data->currentLocation->hasConnection(object)) {
+		auto location = dynamic_cast<Location *>(object);
+		if(location == nullptr) {
 			std::cout << "You can't go there!" << std::endl;
 			return;
 		}
-		auto* newLocation = dynamic_cast<Location *>(object);
-		assert(newLocation != nullptr);
-		data->currentLocation = newLocation;
-		std::cout << "You went to " << newLocation->getSubjectName() << std::endl;
+		if(data->currentLocation == location) {
+			std::cout << "You are already there!" << std::endl;
+			return;
+		}
+		if(!data->currentLocation->hasConnection(location)) {
+			std::cout << "You can't go there!" << std::endl;
+			return;
+		}
+		data->currentLocation = location;
+		std::cout << "You went to " << location->getSubjectName() << std::endl;
 	}
 
 	void doLook(gameData *data, Object* object, Object* indirectObject) {

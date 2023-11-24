@@ -8,29 +8,17 @@
 
 namespace WG {
 
-bool Location::hasConnection(Object *queriedLocation) {
-	queriedLocation = dynamic_cast<Location *>(queriedLocation);
-	if(queriedLocation == nullptr) {
-		return false;
-	}
-	for (const auto &object: objects) {
-		if (object == queriedLocation) {
+bool Location::hasConnection(Location *queriedLocation) {
+	for (const auto &location: connectedLocations) {
+		if (location == queriedLocation) {
 			return true;
 		}
 	}
 	return false;
 }
 
-Location *Location::getConnection(const std::string &locationName) {
-	for (auto &location: connectedLocations) {
-		if (location->getObjectName() == locationName) {
-			return location;
-		}
-	}
-	return nullptr;
-}
-
 void Location::connectLocation(Location *location) {
+	connectedLocations.push_back(location);
 	objects.push_back(location);
 	if (std::find(connectedLocationsIDs.begin(), connectedLocationsIDs.end(), location->getObjectID()) ==
 	    connectedLocationsIDs.end()) {
@@ -68,6 +56,7 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 			return true;
 		}
 	}
+	return false;
 }
 
 	Object *Location::getObject(const std::string &basicString) {
