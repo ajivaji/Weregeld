@@ -10,13 +10,13 @@ namespace WG {
 	void readLocationsJSONFile(gameData *data) {
 		std::string locationsFilePath = "../resources/locations.json";
 		std::ifstream locationsFile(locationsFilePath);
-		if(!locationsFile.is_open()) {
+		if (!locationsFile.is_open()) {
 			std::cout << "Error opening file " << locationsFilePath << std::endl;
 			return;
 		}
 		std::string lineString;
 		std::stringstream line;
-		while(std::getline(locationsFile, lineString)) {
+		while (std::getline(locationsFile, lineString)) {
 			line << lineString;
 			readLocationFromJSON(line, data);
 			lineString = "";
@@ -53,12 +53,61 @@ namespace WG {
 	void writeLocationsJSONFile(gameData *data) {
 		std::string locationsFilePath = "../resources/locationstest.json";
 		std::ofstream locationsFile(locationsFilePath);
-		if(!locationsFile.is_open()) {
+		if (!locationsFile.is_open()) {
 			std::cout << "Error opening file " << locationsFilePath << std::endl;
 			return;
 		}
-		for(auto &location : data->locations) {
+		for (auto &location: data->locations) {
 			locationsFile << writeLocationJSONString(location) << std::endl;
 		}
+	}
+
+	void writeItemsJSONFile(gameData *data) {
+		std::string objectsFilePath = "../resources/objects.json";
+		std::ofstream objectsFile(objectsFilePath);
+		if (!objectsFile.is_open()) {
+			std::cout << "Error opening file " << objectsFilePath << std::endl;
+			return;
+		}
+		for (auto &object: data->items) {
+			objectsFile << writeItemJSONString(object) << std::endl;
+		}
+	}
+
+	std::string writeItemJSONString(Item *item) {
+		nlohmann::json objectJSON;
+		objectJSON["itemName"] = item->getObjectName();
+		objectJSON["itemDescription"] = item->getObjectDescription();
+		objectJSON["subjectName"] = item->getSubjectName();
+		objectJSON["itemID"] = item->getObjectID();
+		return objectJSON.dump();
+	}
+
+	void readItemsJSONFile(gameData *data) {
+		std::string itemsFilePath = "../resources/objects.json";
+		std::ifstream itemsFile(itemsFilePath);
+		if (!itemsFile.is_open()) {
+			std::cout << "Error opening file " << itemsFilePath << std::endl;
+			return;
+		}
+		std::string lineString;
+		std::stringstream line;
+		while (std::getline(itemsFile, lineString)) {
+			line << lineString;
+			readItemFromJSON(line, data);
+			lineString = "";
+			line.clear();
+		}
+	}
+	void readItemFromJSON(std::stringstream &itemStream, gameData *data) {
+		auto itemJSON = nlohmann::json::parse(itemStream);
+
+		int itemID = itemJSON["itemID"];
+		std::string itemName = itemJSON["itemName"];
+		std::string subjectName = itemJSON["subjectName"];
+		std::string itemDescription = itemJSON["itemDescription"];
+
+		auto item = new Item(itemID, itemName, itemDescription, subjectName);
+		data->items.push_back(item);
 	}
 }

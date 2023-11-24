@@ -15,4 +15,9 @@ namespace WG {
 	void readLocationFromJSON(std::stringstream &locationStream, gameData *data);
 	std::string writeLocationJSONString(Location *location);
 	void writeLocationsJSONFile(gameData *data);
+
+	void writeItemsJSONFile(gameData *data);
+	std::string writeItemJSONString(Item *item);
+	void readItemsJSONFile(gameData *data);
+	void readItemFromJSON(std::stringstream &itemStream, gameData *data);
 }
