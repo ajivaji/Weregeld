@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include "Object.h"
+#include "Item.h"
 
 namespace WG {
 class Location : public Object {
@@ -27,11 +28,14 @@ public:
 
 	bool hasObject(const std::string &objectName, Object *&outObject);
 
+    bool hasItem(Item* queriedItem);
+
 	Object *getObject(const std::string &basicString);
 
 private:
 	std::vector<int> connectedLocationsIDs;
 	std::vector<Location*> connectedLocations;
+    std::vector<Item*> localItems;
 
 	std::vector<Object *> objects;
 	std::vector<int> objectIDs;

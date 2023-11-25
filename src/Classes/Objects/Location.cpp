@@ -19,7 +19,6 @@ bool Location::hasConnection(Location *queriedLocation) {
 
 void Location::connectLocation(Location *location) {
 	connectedLocations.push_back(location);
-	objects.push_back(location);
 	if (std::find(connectedLocationsIDs.begin(), connectedLocationsIDs.end(), location->getObjectID()) ==
 	    connectedLocationsIDs.end()) {
 		connectedLocationsIDs.push_back(location->getObjectID());
@@ -57,6 +56,15 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 		}
 	}
 	return false;
+}
+
+bool hasItem(Item* queriedItem) {
+    for (const auto &item : localItems) {
+        if (item == queriedItem) {
+            return true;
+        }
+    }
+    return false;
 }
 
 	Object *Location::getObject(const std::string &basicString) {

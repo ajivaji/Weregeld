@@ -42,7 +42,15 @@ namespace WG {
 	}
 
 	void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
-
+        auto item = dynamic_cast<Item *>(object);
+        if(item == nullptr) {
+            std::cout << "You can't take that!" << std::endl;
+            return;
+        }
+        if(!data->currentLocation->hasItem(item)) {
+            std::cout << "You don't see that here!" << std::endl;
+            return;
+        }
 	}
 
 	void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {

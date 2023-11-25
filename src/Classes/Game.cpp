@@ -40,15 +40,19 @@ void Game::initGame() {
 	};
 
 	readLocationsJSONFile(_gameData);
+    readItemsJSONFile(_gameData);
 	for (auto &location : _gameData->locations) {
 		for (auto &locationID : location->getConnectedLocationsIDs()) {
 			location->connectLocation(_gameData->locations[locationID - 1]);
 		}
 	}
-
-	auto item = new Item(1, "Paper", "A piece of paper.", "the paper");
-	_gameData->items.push_back(item);
-	writeItemsJSONFile(_gameData);
+    for(auto &item : _gameData->items) {
+        for(auto &location : _gameData->locations) {
+            if(location->getObjectID() == ) {
+                location->removeItem(item);
+            }
+        }
+    }
 
 	_gameData->currentLocation = _gameData->locations[0];
 
