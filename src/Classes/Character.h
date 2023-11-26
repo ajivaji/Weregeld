@@ -15,14 +15,14 @@ public:
 
 	void setName(const std::string &name);
 	std::string getName();
-	std::vector<Item *> getInventoryObjects();
-	void addInventoryObject(Item *item);
-	void removeInventoryObject(Item *item);
-	void hasObject(const std::string &objectName, Object *&outObject);
+	std::vector<Item *> getInventory();
+	void addItem(Item *item);
+	void removeItem(Item *item);
+	bool hasItem(Item* item);
 
 private:
 	std::string characterName;
-	std::vector<Item *> inventoryObjects;
+	std::vector<Item *> inventoryItems;
 
 
 };

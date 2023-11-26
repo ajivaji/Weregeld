@@ -24,21 +24,25 @@ public:
 
 	std::vector<int> getConnectedLocationsIDs();
 
-	std::vector<Object *> getObjects();
-
 	bool hasObject(const std::string &objectName, Object *&outObject);
 
     bool hasItem(Item* queriedItem);
 
+	std::vector<int> getLocalItemsIDs();
+
 	Object *getObject(const std::string &basicString);
+
+	void addItem(Item *item);
+
+	void removeItem(Item *item);
 
 private:
 	std::vector<int> connectedLocationsIDs;
 	std::vector<Location*> connectedLocations;
     std::vector<Item*> localItems;
+	std::vector<int> localItemsIDs;
 
 	std::vector<Object *> objects;
-	std::vector<int> objectIDs;
 	//std::map<std::string, std::vector<std::string>> actionObjectIndirectObjectMap;
 };
 

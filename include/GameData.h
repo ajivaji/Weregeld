@@ -6,11 +6,13 @@
 
 #include "Objects/Location.h"
 #include "Objects/Item.h"
+#include "Character.h"
 
 namespace WG {
 struct gameData {
 	typedef void (*action)(gameData *, Object*, Object*);
 
+	Character *player{};
 	Location *currentLocation{};
 	std::vector<Object*> localObjects;
 	std::vector<Item*> items;

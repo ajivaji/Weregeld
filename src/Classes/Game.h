@@ -7,7 +7,6 @@
 
 #include <vector>
 #include <string>
-#include "Character.h"
 #include "../../include/GameData.h"
 
 namespace WG {
@@ -18,7 +17,7 @@ public:
 
 	void initGame();
 
-	std::vector<std::string> getInput(std::string &userInput);
+	static std::vector<std::string> getInput(std::string &userInput);
 
 	void doAction(std::vector<std::string> &inputArgs);
 
@@ -27,7 +26,6 @@ public:
 	~Game();
 
 private:
-	Character player;
 	gameData* _gameData;
 };
 

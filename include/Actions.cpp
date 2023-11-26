@@ -6,7 +6,6 @@
 
 #include <string>
 #include <iostream>
-#include <cassert>
 #include "GameData.h"
 #include "Objects/Location.h"
 
@@ -34,7 +33,7 @@ namespace WG {
 //			std::cout << data->currentLocation->getObjectDescription() << std::endl;
 //			return;
 //		}
-//		if(!data->currentLocation->hasObject(objectName)) {
+//		if(!data->currentLocation->hasItem(objectName)) {
 //			std::cout << "You don't see that here!" << std::endl;
 //			return;
 //		}
@@ -51,13 +50,32 @@ namespace WG {
             std::cout << "You don't see that here!" << std::endl;
             return;
         }
+		data->player->addItem(item);
+		data->currentLocation->removeItem(item);
 	}
 
 	void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
-
+		auto item = dynamic_cast<Item *>(object);
+		if(item == nullptr) {
+			std::cout << "You can't drop that!" << std::endl;
+			return;
+		}
+		if(!data->player->hasItem(item)) {
+			std::cout << "You don't have that!" << std::endl;
+			return;
+		}
+		data->currentLocation->addItem(item);
+		data->player->removeItem(item);
 	}
 
 	void doInventory(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
-
+		std::cout << "You have the following items:" << std::endl;
+		if(data->player->getInventory().empty()) {
+			std::cout << "Nothing" << std::endl;
+			return;
+		}
+		for(auto &item : data->player->getInventory()) {
+			std::cout << item->getObjectName() << std::endl;
+		}
 	}
 }

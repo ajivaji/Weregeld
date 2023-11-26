@@ -19,10 +19,11 @@ bool Location::hasConnection(Location *queriedLocation) {
 
 void Location::connectLocation(Location *location) {
 	connectedLocations.push_back(location);
-	if (std::find(connectedLocationsIDs.begin(), connectedLocationsIDs.end(), location->getObjectID()) ==
-	    connectedLocationsIDs.end()) {
-		connectedLocationsIDs.push_back(location->getObjectID());
-	}
+	objects.push_back(location);
+//	if (std::find(connectedLocationsIDs.begin(), connectedLocationsIDs.end(), location->getObjectID()) ==
+//	    connectedLocationsIDs.end()) {
+//		connectedLocationsIDs.push_back(location->getObjectID());
+//	}
 }
 
 void Location::disconnectLocation(Location *location) {
@@ -42,10 +43,6 @@ Location::Location(int locationID, std::vector<int> connectedIDs, std::string lo
 	this->connectedLocationsIDs = std::move(connectedIDs);
 }
 
-std::vector<Object *> Location::getObjects() {
-	return objects;
-}
-
 bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 	for (const auto &object: objects) {
 		auto objectNamelower = object->getObjectName();
@@ -58,17 +55,40 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 	return false;
 }
 
-bool hasItem(Item* queriedItem) {
-    for (const auto &item : localItems) {
-        if (item == queriedItem) {
-            return true;
-        }
-    }
-    return false;
-}
 
 	Object *Location::getObject(const std::string &basicString) {
 		return nullptr;
+	}
+
+	bool Location::hasItem(Item *queriedItem) {
+		for (const auto &item : localItems) {
+			if (item == queriedItem) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	std::vector<int> Location::getLocalItemsIDs() {
+		return localItemsIDs;
+	}
+
+	void Location::addItem(Item *item) {
+		localItems.push_back(item);
+		objects.push_back(item);
+	}
+
+	void Location::removeItem(Item *item) {
+		for (auto &inventoryObject: localItems) {
+			if (inventoryObject == item) {
+				localItems.erase(std::remove(localItems.begin(), localItems.end(), item),
+				                 localItems.end());
+				objects.erase(std::remove(objects.begin(), objects.end(), item),
+				              objects.end());
+				break;
+			}
+		}
+
 	}
 
 }

@@ -14,12 +14,14 @@ Game::Game() {
 }
 
 void Game::initGame() {
+	_gameData = new gameData;
 	std::string userInput;
 	std::cout << "Welcome to the game!" << std::endl;
 	std::cout << "What is your name?" << std::endl;
 	std::getline(std::cin, userInput);
-	player.setName(userInput);
-	_gameData = new gameData;
+	auto player = new Character;
+	_gameData->player = player;
+	_gameData->player->setName(userInput);
 
 	/*_gameData->actionObjectIndirectObjectMap = {
 			{"go",        {"north", "south", "east", "west"}},
@@ -43,16 +45,23 @@ void Game::initGame() {
     readItemsJSONFile(_gameData);
 	for (auto &location : _gameData->locations) {
 		for (auto &locationID : location->getConnectedLocationsIDs()) {
-			location->connectLocation(_gameData->locations[locationID - 1]);
+			for (auto &location2 : _gameData->locations) {
+				if (location2->getObjectID() == locationID) {
+					location->connectLocation(location2);
+					break;
+				}
+			}
+		}
+		for(auto &itemID : location->getLocalItemsIDs()) {
+			for(auto &item : _gameData->items) {
+		        if(item->getObjectID() == itemID) {
+		            location->addItem(item);
+		            break;
+		        }
+		    }
 		}
 	}
-    for(auto &item : _gameData->items) {
-        for(auto &location : _gameData->locations) {
-            if(location->getObjectID() == ) {
-                location->removeItem(item);
-            }
-        }
-    }
+
 
 	_gameData->currentLocation = _gameData->locations[0];
 

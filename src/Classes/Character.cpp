@@ -14,33 +14,31 @@ std::string Character::getName() {
 	return characterName;
 }
 
-std::vector<Item *> Character::getInventoryObjects() {
-	return inventoryObjects;
+std::vector<Item *> Character::getInventory() {
+	return inventoryItems;
 }
 
-void Character::addInventoryObject(Item *item) {
-	inventoryObjects.push_back(item);
+void Character::addItem(Item *item) {
+	inventoryItems.push_back(item);
 }
 
-void Character::removeInventoryObject(Item *item) {
-	for (auto &inventoryObject: inventoryObjects) {
+void Character::removeItem(Item *item) {
+	for (auto &inventoryObject: inventoryItems) {
 		if (inventoryObject == item) {
-			inventoryObjects.erase(std::remove(inventoryObjects.begin(), inventoryObjects.end(), item),
-			                       inventoryObjects.end());
+			inventoryItems.erase(std::remove(inventoryItems.begin(), inventoryItems.end(), item),
+			                     inventoryItems.end());
 			break;
 		}
 	}
 }
 
-void Character::hasObject(const std::string &objectName, Object* &outObject) {
-	for (const auto &object: inventoryObjects) {
-		auto objectNamelower = object->getObjectName();
-		std::transform(objectNamelower.begin(), objectNamelower.end(), objectNamelower.begin(), ::tolower);
-		if (objectName == objectNamelower) {
-			outObject = object;
-			return;
+bool Character::hasItem(Item* item) {
+	for (const auto &inventoryObject : inventoryItems) {
+		if (inventoryObject == item) {
+			return true;
 		}
 	}
+	return false;
 }
 
 }
