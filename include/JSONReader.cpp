@@ -33,8 +33,9 @@ namespace WG {
 		std::string locationName = locationJSON["locationName"];
 		std::string subjectName = locationJSON["subjectName"];
 		std::string locationDescription = locationJSON["locationDescription"];
+		std::vector<int> localItemsIDs = locationJSON["localItemsIDs"];
 
-		auto location = new Location(locationID, connectedIDs, locationName, subjectName, locationDescription);
+		auto location = new Location(locationID, connectedIDs, locationName, subjectName, locationDescription, localItemsIDs);
 		data->locations.push_back(location);
 	}
 
@@ -45,13 +46,14 @@ namespace WG {
 		locationJSON["subjectName"] = location->getSubjectName();
 		locationJSON["locationID"] = location->getObjectID();
 		locationJSON["connectedLocationsIDs"] = location->getConnectedLocationsIDs();
+		locationJSON["localItemsIDs"] = location->getLocalItemsIDs();
 		//locationJSON["actionObjectIndirectObjectMap"] = location->getActionActionablesmap();
 
 		return locationJSON.dump();
 	}
 
 	void writeLocationsJSONFile(gameData *data) {
-		std::string locationsFilePath = "../resources/locationstest.json";
+		std::string locationsFilePath = "../resources/locations.json";
 		std::ofstream locationsFile(locationsFilePath);
 		if (!locationsFile.is_open()) {
 			std::cout << "Error opening file " << locationsFilePath << std::endl;

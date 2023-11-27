@@ -14,7 +14,7 @@ namespace WG {
 class Location : public Object {
 public:
 	Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName,
-	         std::string locationDescription);
+	         std::string locationDescription, std::vector<int> localItemsIDs);
 
 	bool hasConnection(Location *queriedLocation);
 
@@ -29,6 +29,10 @@ public:
     bool hasItem(Item* queriedItem);
 
 	std::vector<int> getLocalItemsIDs();
+
+	std::vector<Item*> getLocalItems();
+
+	std::vector<Location*> getConnectedLocations();
 
 	Object *getObject(const std::string &basicString);
 

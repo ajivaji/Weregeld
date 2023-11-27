@@ -35,12 +35,13 @@ std::vector<int> Location::getConnectedLocationsIDs() {
 }
 
 Location::Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName,
-                   std::string locationDescription)
+                   std::string locationDescription, std::vector<int> localItemsIDs)
 				   : Object(locationID,
 							std::move(locationName),
 							std::move(locationDescription),
 							std::move(subjectName)) {
 	this->connectedLocationsIDs = std::move(connectedIDs);
+	this->localItemsIDs = std::move(localItemsIDs);
 }
 
 bool Location::hasObject(const std::string &objectName, Object* &outObject) {
@@ -89,6 +90,14 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 			}
 		}
 
+	}
+
+	std::vector<Item *> Location::getLocalItems() {
+		return localItems;
+	}
+
+	std::vector<Location *> Location::getConnectedLocations() {
+		return connectedLocations;
 	}
 
 }

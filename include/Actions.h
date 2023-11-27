@@ -11,14 +11,9 @@
 namespace WG {
 
 	struct gameData;
-
 	void doGo(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
-
 	void doLook(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
-
 	void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
-
 	void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
-
 	void doInventory(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 }

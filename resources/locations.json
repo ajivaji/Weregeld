@@ -1,3 +1,3 @@
-{"connectedLocationsIDs":[2,3],"locationDescription":"item1","locationID":1,"locationName":"Location1","subjectName":"the first location"}
-{"connectedLocationsIDs":[1,3],"locationDescription":"item2","locationID":2,"locationName":"Location2","subjectName":"the second location"}
-{"connectedLocationsIDs":[1,2],"locationDescription":"item3","locationID":3,"locationName":"Location3","subjectName":"the third location"}
+{"connectedLocationsIDs":[2,3],"locationDescription":"item1","locationID":1,"locationName":"Location1","subjectName":"the first location", "localItemsIDs":[1]}
+{"connectedLocationsIDs":[1,3],"locationDescription":"item2","locationID":2,"locationName":"Location2","subjectName":"the second location", "localItemsIDs":[]}
+{"connectedLocationsIDs":[1,2],"locationDescription":"item3","locationID":3,"locationName":"Location3","subjectName":"the third location", "localItemsIDs":[]}

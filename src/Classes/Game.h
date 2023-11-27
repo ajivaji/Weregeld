@@ -11,9 +11,17 @@
 
 namespace WG {
 
-	class Game {
+class Game {
+
 public:
-	Game();
+
+	static Game& getInstance() {
+		static Game instance;
+		return instance;
+	}
+
+	Game(Game const&) = delete;
+	void operator=(Game const&) = delete;
 
 	void initGame();
 
@@ -23,9 +31,18 @@ public:
 
 	void playGame();
 
-	~Game();
+	void updateLocalObjects();
+
+	bool objectIsPresent(std::string &objectName, Object* &outObject);
+
+	void setLocation(Location *location);
 
 private:
+
+	Game() = default;
+
+	~Game();
+
 	gameData* _gameData;
 };
 

@@ -9,9 +9,6 @@
 
 namespace WG {
 
-Game::Game() {
-	initGame();
-}
 
 void Game::initGame() {
 	_gameData = new gameData;
@@ -55,15 +52,15 @@ void Game::initGame() {
 		for(auto &itemID : location->getLocalItemsIDs()) {
 			for(auto &item : _gameData->items) {
 		        if(item->getObjectID() == itemID) {
-		            location->addItem(item);
+					auto newitem = new Item(*item);
+		            location->addItem(newitem);
 		            break;
 		        }
 		    }
 		}
 	}
 
-
-	_gameData->currentLocation = _gameData->locations[0];
+	Game::getInstance().setLocation(_gameData->locations[0]);
 
 }
 
@@ -90,11 +87,6 @@ void Game::doAction(std::vector<std::string> &inputArgs) {
 	Object* object = nullptr;
 	Object* indirObject = nullptr;
 
-	if(std::find(inputArgs.begin(), inputArgs.end(), "inventory") != inputArgs.end()) {
-		inputArgs[0] = "inventory";
-		_gameData->actions[inputArgs[0]](_gameData, object, indirObject);
-	}
-
 	if (_gameData->actions.find(inputArgs[0]) == _gameData->actions.end()) {
 		std::cout << "You can't do that." << std::endl;
 		return;
@@ -103,7 +95,7 @@ void Game::doAction(std::vector<std::string> &inputArgs) {
 	int foundObjectIndex = -1;
 	if(inputArgs.size() > 1) {
 		for (int i = 1; i < inputArgs.size(); i++) {
-			if (_gameData->currentLocation->hasObject(inputArgs[i], object)) {
+			if (objectIsPresent(inputArgs[i], object)) {
 				foundObject = true;
 				foundObjectIndex = i;
 				break;
@@ -112,7 +104,7 @@ void Game::doAction(std::vector<std::string> &inputArgs) {
 	}
 	if(foundObject && inputArgs.size() > 2) {
 		for (int i = foundObjectIndex + 1; i < inputArgs.size(); i++) {
-			if (_gameData->currentLocation->hasObject(inputArgs[i], indirObject)) {
+			if (objectIsPresent(inputArgs[i], indirObject)) {
 				if(indirObject == object) {
 					std::cout << "You can't do that." << std::endl;
 					return;
@@ -152,8 +144,39 @@ void Game::playGame() {
 	}
 }
 
+void Game::updateLocalObjects() {
+	_gameData->localObjects.clear();
+	for(auto &item : _gameData->player->getInventory()) {
+		_gameData->localObjects.push_back(item);
+	}
+	for(auto &item : _gameData->currentLocation->getLocalItems()) {
+		_gameData->localObjects.push_back(item);
+	}
+	for(auto &location : _gameData->currentLocation->getConnectedLocations()) {
+		_gameData->localObjects.push_back(location);
+	}
+}
+
 Game::~Game() {
 	//add loops which delete all the locations and such.
 	delete _gameData;
 }
+
+bool Game::objectIsPresent(std::string &objectName, Object *&outObject) {
+	for (const auto &object : _gameData->localObjects) {
+		auto objectNamelower = object->getObjectName();
+		std::transform(objectNamelower.begin(), objectNamelower.end(), objectNamelower.begin(), ::tolower);
+		if (objectName == objectNamelower) {
+			outObject = object;
+			return true;
+		}
+	}
+	return false;
+}
+
+	void Game::setLocation(Location *location) {
+		_gameData->currentLocation = location;
+		updateLocalObjects();
+	}
+
 }

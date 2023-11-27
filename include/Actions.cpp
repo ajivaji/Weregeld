@@ -8,74 +8,79 @@
 #include <iostream>
 #include "GameData.h"
 #include "Objects/Location.h"
+#include "Game.h"
 
 namespace WG {
-	void doGo(gameData *data, Object* object, Object* indirectObject) {
-		auto location = dynamic_cast<Location *>(object);
-		if(location == nullptr) {
-			std::cout << "You can't go there!" << std::endl;
-			return;
-		}
-		if(data->currentLocation == location) {
-			std::cout << "You are already there!" << std::endl;
-			return;
-		}
-		if(!data->currentLocation->hasConnection(location)) {
-			std::cout << "You can't go there!" << std::endl;
-			return;
-		}
-		data->currentLocation = location;
-		std::cout << "You went to " << location->getSubjectName() << std::endl;
+void doGo(gameData *data, Object* object, Object* indirectObject) {
+	auto location = dynamic_cast<Location *>(object);
+	if(location == nullptr) {
+		std::cout << "You can't go there!" << std::endl;
+		return;
 	}
+	if(data->currentLocation == location) {
+		std::cout << "You are already there!" << std::endl;
+		return;
+	}
+	if(!data->currentLocation->hasConnection(location)) {
+		std::cout << "You can't go there!" << std::endl;
+		return;
+	}
+	Game::getInstance().setLocation(location);
 
-	void doLook(gameData *data, Object* object, Object* indirectObject) {
-//		if(objectName == "around") {
-//			std::cout << data->currentLocation->getObjectDescription() << std::endl;
-//			return;
-//		}
-//		if(!data->currentLocation->hasItem(objectName)) {
-//			std::cout << "You don't see that here!" << std::endl;
-//			return;
-//		}
-//		std::cout << data->currentLocation->getObject(objectName)->getObjectDescription() << std::endl;
-	}
+	std::cout << "You went to " << location->getSubjectName() << std::endl;
+}
 
-	void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
-        auto item = dynamic_cast<Item *>(object);
-        if(item == nullptr) {
-            std::cout << "You can't take that!" << std::endl;
-            return;
-        }
-        if(!data->currentLocation->hasItem(item)) {
-            std::cout << "You don't see that here!" << std::endl;
-            return;
-        }
-		data->player->addItem(item);
-		data->currentLocation->removeItem(item);
-	}
+void doLook(gameData *data, Object* object, Object* indirectObject) {
+//	if(objectName == "around") {
+//		std::cout << data->currentLocation->getObjectDescription() << std::endl;
+//		return;
+//	}
+//	if(!data->currentLocation->hasItem(objectName)) {
+//		std::cout << "You don't see that here!" << std::endl;
+//		return;
+//	}
+//	std::cout << data->currentLocation->getObject(objectName)->getObjectDescription() << std::endl;
+}
 
-	void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
-		auto item = dynamic_cast<Item *>(object);
-		if(item == nullptr) {
-			std::cout << "You can't drop that!" << std::endl;
-			return;
-		}
-		if(!data->player->hasItem(item)) {
-			std::cout << "You don't have that!" << std::endl;
-			return;
-		}
-		data->currentLocation->addItem(item);
-		data->player->removeItem(item);
+void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
+    auto item = dynamic_cast<Item *>(object);
+    if(item == nullptr) {
+        std::cout << "You don't see that here!" << std::endl;
+        return;
+    }
+	if(data->player->hasItem(item)) {
+		std::cout << "You already have that!" << std::endl;
+		return;
 	}
+	data->player->addItem(item);
+	data->currentLocation->removeItem(item);
+}
 
-	void doInventory(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
-		std::cout << "You have the following items:" << std::endl;
-		if(data->player->getInventory().empty()) {
-			std::cout << "Nothing" << std::endl;
-			return;
-		}
-		for(auto &item : data->player->getInventory()) {
-			std::cout << item->getObjectName() << std::endl;
-		}
+void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
+	//add picked up items to the local objects vector so that they can be dropped
+	auto item = dynamic_cast<Item *>(object);
+	if(item == nullptr) {
+		std::cout << "You can't drop that!" << std::endl;
+		return;
 	}
+	if(!data->player->hasItem(item)) {
+		std::cout << "You don't have that!" << std::endl;
+		return;
+	}
+	data->currentLocation->addItem(item);
+	data->player->removeItem(item);
+	std::cout << "You dropped " << item->getObjectName() << std::endl;
+	std::cout << "New inventory size: " << data->player->getInventory().size() << std::endl;
+}
+
+void doInventory(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
+	std::cout << "You have the following items:" << std::endl;
+	if(data->player->getInventory().empty()) {
+		std::cout << "Nothing" << std::endl;
+		return;
+	}
+	for(auto &item : data->player->getInventory()) {
+		std::cout << item->getObjectName() << std::endl;
+	}
+}
 }
