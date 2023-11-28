@@ -3,6 +3,7 @@
 //
 
 #include "Item.h"
+#include "../../../external/nlohmann-json/json.hpp"
 
 #include <utility>
 #include <iostream>
@@ -15,6 +16,15 @@ Item::Item(const int &objectID, std::string objectName, std::string objectDescri
 
 Item::Item(const Item& item) : Object(item.objectID, item.objectName, item.objectDescription, item.subjectName) {
 
+}
+
+std::string Item::toJSON() {
+	nlohmann::json objectJSON;
+	objectJSON["itemName"] = this->getObjectName();
+	objectJSON["itemDescription"] = this->getObjectDescription();
+	objectJSON["subjectName"] = this->getSubjectName();
+	objectJSON["itemID"] = this->getObjectID();
+	return objectJSON.dump();
 }
 
 }

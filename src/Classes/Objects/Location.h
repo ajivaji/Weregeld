@@ -40,6 +40,8 @@ public:
 
 	void removeItem(Item *item);
 
+	std::string toJSON();
+
 private:
 	std::vector<int> connectedLocationsIDs;
 	std::vector<Location*> connectedLocations;

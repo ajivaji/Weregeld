@@ -39,19 +39,6 @@ namespace WG {
 		data->locations.push_back(location);
 	}
 
-	std::string writeLocationJSONString(Location *location) {
-		nlohmann::json locationJSON;
-		locationJSON["locationName"] = location->getObjectName();
-		locationJSON["locationDescription"] = location->getObjectDescription();
-		locationJSON["subjectName"] = location->getSubjectName();
-		locationJSON["locationID"] = location->getObjectID();
-		locationJSON["connectedLocationsIDs"] = location->getConnectedLocationsIDs();
-		locationJSON["localItemsIDs"] = location->getLocalItemsIDs();
-		//locationJSON["actionObjectIndirectObjectMap"] = location->getActionActionablesmap();
-
-		return locationJSON.dump();
-	}
-
 	void writeLocationsJSONFile(gameData *data) {
 		std::string locationsFilePath = "../resources/locations.json";
 		std::ofstream locationsFile(locationsFilePath);
@@ -60,7 +47,7 @@ namespace WG {
 			return;
 		}
 		for (auto &location: data->locations) {
-			locationsFile << writeLocationJSONString(location) << std::endl;
+			locationsFile << location->toJSON() << std::endl;
 		}
 	}
 
@@ -72,17 +59,8 @@ namespace WG {
 			return;
 		}
 		for (auto &object: data->items) {
-			objectsFile << writeItemJSONString(object) << std::endl;
+			objectsFile << object->toJSON() << std::endl;
 		}
-	}
-
-	std::string writeItemJSONString(Item *item) {
-		nlohmann::json objectJSON;
-		objectJSON["itemName"] = item->getObjectName();
-		objectJSON["itemDescription"] = item->getObjectDescription();
-		objectJSON["subjectName"] = item->getSubjectName();
-		objectJSON["itemID"] = item->getObjectID();
-		return objectJSON.dump();
 	}
 
 	void readItemsJSONFile(gameData *data) {

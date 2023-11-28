@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <utility>
 #include "Location.h"
+#include "../../../external/nlohmann-json/json.hpp"
 
 namespace WG {
 
@@ -76,7 +77,6 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 
 	void Location::addItem(Item *item) {
 		localItems.push_back(item);
-		objects.push_back(item);
 	}
 
 	void Location::removeItem(Item *item) {
@@ -84,8 +84,6 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 			if (inventoryObject == item) {
 				localItems.erase(std::remove(localItems.begin(), localItems.end(), item),
 				                 localItems.end());
-				objects.erase(std::remove(objects.begin(), objects.end(), item),
-				              objects.end());
 				break;
 			}
 		}
@@ -99,6 +97,17 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 	std::vector<Location *> Location::getConnectedLocations() {
 		return connectedLocations;
 	}
+
+std::string Location::toJSON() {
+	nlohmann::json locationJSON;
+	locationJSON["locationName"] = this->getObjectName();
+	locationJSON["locationDescription"] = this->getObjectDescription();
+	locationJSON["subjectName"] = this->getSubjectName();
+	locationJSON["locationID"] = this->getObjectID();
+	locationJSON["connectedLocationsIDs"] = this->getConnectedLocationsIDs();
+	locationJSON["localItemsIDs"] = this->getLocalItemsIDs();
+	return locationJSON.dump();
+}
 
 }
 /*std::map<std::string, std::vector<std::string>> Location::getActionActionablesmap() {
