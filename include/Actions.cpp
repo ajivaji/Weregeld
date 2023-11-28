@@ -83,4 +83,18 @@ void doInventory(gameData *data, Object* object = nullptr, Object* indirectObjec
 		std::cout << item->getObjectName() << std::endl;
 	}
 }
+
+void doUse(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
+	auto item = dynamic_cast<Item *>(object);
+	if(item == nullptr) {
+		std::cout << "You can't use that!" << std::endl;
+		return;
+	}
+	if(!data->player->hasItem(item)) {
+		std::cout << "You don't have that!" << std::endl;
+		return;
+	}
+
+	std::cout << "You can't use that!" << std::endl;
+}
 }

@@ -32,7 +32,7 @@ void Game::initGame() {
 	_gameData->actions = {
 			{"go",        &doGo},
 			{"look",      &doLook},
-			//{"inspect"},  &doInspect},
+			{"use",       &doUse},
 			{"take",      &doTake},
 			{"drop",      &doDrop},
 			{"inventory", &doInventory}
@@ -52,7 +52,7 @@ void Game::initGame() {
 		for(auto &itemID : location->getLocalItemsIDs()) {
 			for(auto &item : _gameData->items) {
 		        if(item->getObjectID() == itemID) {
-					auto newitem = new Item(*item);
+					auto newitem = new Item(<#initializer#>, std::string(), std::string(), std::string(), *item);
 		            location->addItem(newitem);
 		            break;
 		        }

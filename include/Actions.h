@@ -16,4 +16,5 @@ namespace WG {
 	void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 	void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 	void doInventory(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
+	void doUse(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr);
 }

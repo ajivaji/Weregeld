@@ -10,8 +10,8 @@ namespace WG {
 class Item : public Object {
 public:
 	Item(const int& objectID, std::string objectName, std::string objectDescription, std::string subjectName);
-	Item(const int &objectId, std::string objectName, std::string objectDescription, std::string subjectName,
-	     const Item &);
+
+	Item(const Item& item);
 
 private:
 

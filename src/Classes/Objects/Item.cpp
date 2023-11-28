@@ -13,10 +13,7 @@ Item::Item(const int &objectID, std::string objectName, std::string objectDescri
 	printf("Item %s created\n", this->getObjectName().c_str());
 }
 
-Item::Item(const int &objectId, std::string objectName, std::string objectDescription, std::string subjectName,
-           const Item &) : Object(objectId, std::move(objectName), std::move(objectDescription), std::move(subjectName)) {
-	printf("Item %s copied\n", this->getObjectName().c_str());
-
+Item::Item(const Item& item) : Object(item.objectID, item.objectName, item.objectDescription, item.subjectName) {
 
 }
 
