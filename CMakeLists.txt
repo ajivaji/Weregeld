@@ -7,4 +7,4 @@ endif ()
 
 set(CMAKE_CXX_STANDARD 17)
 include_directories(src/Classes)
-add_executable(Weregeld src/main.cpp src/Classes/Character.cpp src/Classes/Objects/Location.cpp include/Actions.cpp src/Classes/Game.cpp include/JSONReader.cpp src/Classes/Objects/Item.cpp src/Classes/Objects/Item.h src/Classes/Objects/Object.cpp src/Classes/Objects/Object.h)
+add_executable(Weregeld src/main.cpp src/Classes/Character.cpp src/Classes/Objects/Location.cpp include/Actions.cpp src/Classes/Game.cpp include/JSONReader.cpp src/Classes/Objects/Item.cpp src/Classes/Objects/Item.h src/Classes/Objects/Object.cpp src/Classes/Objects/Object.h src/Classes/Objects/Items/Key.cpp src/Classes/Objects/Items/Key.h src/Classes/Interfaces/Unlockable.cpp src/Classes/Interfaces/Unlockable.h)
