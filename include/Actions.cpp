@@ -9,25 +9,48 @@
 #include "GameData.h"
 #include "Objects/Location.h"
 #include "Game.h"
+#include "Objects/Door.h"
 
 namespace WG {
 void doGo(gameData *data, Object* object, Object* indirectObject) {
 	auto location = dynamic_cast<Location *>(object);
-	if(location == nullptr) {
+	auto door = dynamic_cast<Door *>(object);
+	if(door == nullptr && location == nullptr) {
 		std::cout << "You can't go there!" << std::endl;
 		return;
 	}
-	if(data->currentLocation == location) {
-		std::cout << "You are already there!" << std::endl;
-		return;
-	}
-	if(!data->currentLocation->hasConnection(location)) {
-		std::cout << "You can't go there!" << std::endl;
-		return;
-	}
-	Game::getInstance().setLocation(location);
+	if(location != nullptr) {
+		if(data->currentLocation == location) {
+			std::cout << "You are already there!" << std::endl;
+			return;
+		}
+		if(!data->currentLocation->hasConnection(location)) {
+			std::cout << "You can't go there!" << std::endl;
+			return;
+		}
 
-	std::cout << "You went to " << location->getSubjectName() << std::endl;
+		Game::getInstance().setLocation(location);
+		std::cout << "You went to " << location->getSubjectName() << std::endl;
+		return;
+	}
+	if(door != nullptr) {
+		if(door->isLocked()) {
+			std::cout << "The door is locked!" << std::endl;
+			return;
+		}
+		auto location1 = door->getLocation1();
+		auto location2 = door->getLocation2();
+		if(data->currentLocation == location1) {
+			Game::getInstance().setLocation(location2);
+			std::cout << "You went to " << location2->getSubjectName() << std::endl;
+		}
+		if(data->currentLocation == location2) {
+			Game::getInstance().setLocation(location1);
+			std::cout << "You went to " << location1->getSubjectName() << std::endl;
+		}
+		std::cout << "You can't go there!" << std::endl;
+		return;
+	}
 }
 
 void doLook(gameData *data, Object* object, Object* indirectObject) {
