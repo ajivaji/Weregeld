@@ -7,18 +7,18 @@
 #include <utility>
 
 namespace WG {
-Key::Key(const int &objectID, std::string objectName, std::string objectDescription, std::string subjectName, int keyID)
+Key::Key(const int &objectID, std::string objectName, std::string objectDescription, std::string subjectName, int keyCode)
 		: Item(objectID, std::move(objectName), std::move(objectDescription), std::move(subjectName)) {
-	this->keyID = keyID;
+	this->keyCode = keyCode;
 	this->type = objectType::key;
 }
 
 Key::Key(const Key& key) : Item(key.objectID, key.objectName, key.objectDescription, key.subjectName) {
-	this->keyID = key.keyID;
+	this->keyCode = key.keyCode;
 }
 
-int Key::getKeyID() const {
-	return keyID;
+int Key::getkeyCode() const {
+	return keyCode;
 }
 
 }

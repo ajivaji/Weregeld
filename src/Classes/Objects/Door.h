@@ -14,13 +14,13 @@ class Door : public Unlockable, public Object {
 
 public:
 	Door(const int &objectId, std::string objectName, std::string objectDescription, std::string subjectName,
-	     Location *location1, Location *location2, int keyID, bool lockedStatus)
+	     int location1ID, int location2ID, int keyCode, bool lockedStatus)
 		 : Object(objectId, std::move(objectName), std::move(objectDescription), std::move(subjectName)),
-		 location1(location1), location2(location2), Unlockable(keyID, lockedStatus){
+		 location1ID(location1ID), location2ID(location2ID), Unlockable(keyCode, lockedStatus){
 		this->type = objectType::door;
 	};
 
-	int getLockID() const override;
+	int getkeyCode() const override;
 
 	bool isLocked() const override;
 

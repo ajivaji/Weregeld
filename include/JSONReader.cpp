@@ -102,7 +102,7 @@ std::string doortoJSON(Door* door) {
 	doorJSON["objectID"] = door->getObjectID();
 	doorJSON["location1ID"] = door->getLocation1ID();
 	doorJSON["location2ID"] = door->getLocation2ID();
-	doorJSON["keyCode"] = door->getLockID();
+	doorJSON["keyCode"] = door->getkeyCode();
 	doorJSON["lockedStatus"] = door->isLocked();
 	return doorJSON.dump(4);
 }

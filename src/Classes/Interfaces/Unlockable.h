@@ -9,16 +9,18 @@
 
 namespace WG {
 class Unlockable {
-	Unlockable(int keyID, bool lockedStatus) : keyID(keyID), lockedStatus(lockedStatus) {};
+public:
+	Unlockable(int keyCode, bool lockedStatus) : keyCode(keyCode), lockedStatus(lockedStatus) {};
 
-	virtual int getKeyID() const = 0;
+	virtual int getkeyCode() const = 0;
 
 	virtual bool isLocked() const = 0;
 
-	virtual void unlock(const Key& key) = 0;
-private:
-	int keyID;
+	virtual void lockUnlock(const Key& key) = 0;
+
+protected:
 	bool lockedStatus;
+	int keyCode;
 };
 
 }

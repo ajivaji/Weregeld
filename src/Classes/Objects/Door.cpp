@@ -9,8 +9,8 @@
 namespace WG {
 
 
-int Door::getLockID() const {
-	return lockID;
+int Door::getkeyCode() const {
+	return keyCode;
 }
 
 bool Door::isLocked() const {
@@ -18,7 +18,7 @@ bool Door::isLocked() const {
 }
 
 void Door::lockUnlock(const Key &key) {
-	if(key.getKeyID() == getLockID()){
+	if(key.getkeyCode() == getkeyCode()){
 		lockedStatus = !lockedStatus;
 	}
 }
