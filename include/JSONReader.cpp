@@ -53,7 +53,7 @@ void readObjectsJSONFile(gameData *data) {
 			data->globalObjects.push_back(item);
 		}
 		else if(object["type"] == "location") {
-			Location* location = new Location(object["objectID"], object["locationName"], object["locationDescription"], object["subjectName"], object["connectedLocationsIDs"], object["localItemsIDs"]);
+			Location* location = new Location(object["objectID"], object["locationName"], object["locationDescription"], object["subjectName"], object["objectIDs"]);
 			data->globalObjects.push_back(location);
 		}
 		else if(object["type"] == "door") {
@@ -88,8 +88,7 @@ std::string locationtoJSON(Location* location) {
 	locationJSON["locationDescription"] = location->getObjectDescription();
 	locationJSON["subjectName"] = location->getSubjectName();
 	locationJSON["objectID"] = location->getObjectID();
-	locationJSON["connectedLocationsIDs"] = location->getConnectedLocationsIDs();
-	locationJSON["localItemsIDs"] = location->getLocalItemsIDs();
+	locationJSON["objectIDs"] = location->getObjectIDs();
 	return locationJSON.dump(4);
 }
 

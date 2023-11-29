@@ -14,7 +14,7 @@ namespace WG {
 class Location : public Object {
 public:
 	Location(int objectID, std::string locationName,
-	         std::string locationDescription, std::string subjectName, std::vector<int> connectedIDs, std::vector<int> localItemsIDs);
+	         std::string locationDescription, std::string subjectName, std::vector<int> objectIDs);
 
 	bool hasConnection(Location *queriedLocation);
 
@@ -22,32 +22,23 @@ public:
 
 	void disconnectLocation(Location *location);
 
-	std::vector<int> getConnectedLocationsIDs();
-
 	bool hasObject(const std::string &objectName, Object *&outObject);
 
     bool hasItem(Item* queriedItem);
 
-	std::vector<int> getLocalItemsIDs();
-
-	std::vector<Item*> getLocalItems();
-
-	std::vector<Location*> getConnectedLocations();
-
 	Object *getObject(const std::string &basicString);
 
-	void addItem(Item *item);
+	void addObject(Object *object);
 
-	void removeItem(Item *item);
+	void removeObject(Object *object);
 
 	std::vector<Object *> getObjects();
 
-private:
-	std::vector<int> connectedLocationsIDs;
-	std::vector<Location*> connectedLocations;
-    std::vector<Item*> localItems;
-	std::vector<int> localItemsIDs;
+	std::vector<int> getObjectIDs();
 
+private:
+
+	std::vector<int> objectsIDs;
 	std::vector<Object *> objects;
 	//std::map<std::string, std::vector<std::string>> actionObjectIndirectObjectMap;
 };

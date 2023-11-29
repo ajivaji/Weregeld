@@ -2,13 +2,11 @@
     "type": "location",
     "locationName": "Location1",
     "locationDescription": "location1",
-    "subjectName": "This is location 1.",
-    "locationID": 1,
-    "connectedLocationsIDs": [
-        2
-    ],
-    "localItemsIDs": [
-        1
+    "subjectName": "This is location 1. Testing",
+    "objectID": 0,
+    "objectIDs": [
+        1,
+        100
     ]
 }
 {
@@ -16,37 +14,38 @@
     "locationName": "Location2",
     "locationDescription": "location2",
     "subjectName": "This is location 2.",
-    "locationID": 2,
-    "connectedLocationsIDs": [
-        1
-    ],
-    "localItemsIDs": []
+    "objectID": 1,
+    "objectIDs": [
+        0,
+        200
+    ]
 }
 {
     "type": "location",
     "locationName": "Location3",
     "locationDescription": "location3",
     "subjectName": "This is location 3.",
-    "locationID": 3,
-    "connectedLocationsIDs": [],
-    "localItemsIDs": []
+    "objectID": 2,
+    "objectIDs": [
+        200
+    ]
 }
 {
     "type": "door",
     "doorName": "Door",
     "doorDescription": "This is a door.",
     "subjectName": "door",
-    "doorID": 4,
+    "objectID": 200,
     "location1ID": 2,
     "location2ID": 3,
-    "keyID": 123,
+    "keyCode": 123,
     "lockedStatus": true
 }
 {
     "type": "item",
-    "itemName": "Key",
-    "itemDescription": "This is a key.",
+    "keyName": "Key",
+    "keyDescription": "This is a key.",
     "subjectName": "key",
-    "itemID": 5,
-    "keyID": 123
+    "objectID": 100,
+    "keyCode": 123
 }
