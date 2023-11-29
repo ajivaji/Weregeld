@@ -8,92 +8,6 @@
 #include "Objects/Door.h"
 
 namespace WG {
-/*
-void readLocationsJSONFile(gameData *data) {
-	std::string locationsFilePath = "../resources/locations.json";
-	std::ifstream locationsFile(locationsFilePath);
-	if (!locationsFile.is_open()) {
-		std::cout << "Error opening file " << locationsFilePath << std::endl;
-		return;
-	}
-	std::string lineString;
-	std::stringstream line;
-	while (std::getline(locationsFile, lineString)) {
-		line << lineString;
-		readLocationFromJSON(line, data);
-		lineString = "";
-		line.clear();
-	}
-
-}
-
-void readLocationFromJSON(std::stringstream &locationStream, gameData *data) {
-	auto locationJSON = nlohmann::json::parse(locationStream);
-
-	int locationID = locationJSON["locationID"];
-	std::vector<int> connectedIDs = locationJSON["connectedLocationsIDs"];
-	std::string locationName = locationJSON["locationName"];
-	std::string subjectName = locationJSON["subjectName"];
-	std::string locationDescription = locationJSON["locationDescription"];
-	std::vector<int> localItemsIDs = locationJSON["localItemsIDs"];
-
-	auto location = new Location(locationID, connectedIDs, locationName, subjectName, locationDescription, localItemsIDs);
-	data->locations.push_back(location);
-}
-
-void writeLocationsJSONFile(gameData *data) {
-	std::string locationsFilePath = "../resources/locations.json";
-	std::ofstream locationsFile(locationsFilePath);
-	if (!locationsFile.is_open()) {
-		std::cout << "Error opening file " << locationsFilePath << std::endl;
-		return;
-	}
-	for (auto &location: data->locations) {
-		locationsFile << location->toJSON() << std::endl;
-	}
-}
-
-void writeItemsJSONFile(gameData *data) {
-	std::string objectsFilePath = "../resources/items.json";
-	std::ofstream objectsFile(objectsFilePath);
-	if (!objectsFile.is_open()) {
-		std::cout << "Error opening file " << objectsFilePath << std::endl;
-		return;
-	}
-	for (auto &object: data->items) {
-		objectsFile << object->toJSON() << std::endl;
-	}
-}
-
-void readItemsJSONFile(gameData *data) {
-	std::string itemsFilePath = "../resources/items.json";
-	std::ifstream itemsFile(itemsFilePath);
-	if (!itemsFile.is_open()) {
-		std::cout << "Error opening file " << itemsFilePath << std::endl;
-		return;
-	}
-	std::string lineString;
-	std::stringstream line;
-	while (std::getline(itemsFile, lineString)) {
-		line << lineString;
-		readItemFromJSON(line, data);
-		lineString = "";
-		line.clear();
-	}
-}
-void readItemFromJSON(std::stringstream &itemStream, gameData *data) {
-	auto itemJSON = nlohmann::json::parse(itemStream);
-
-	int itemID = itemJSON["itemID"];
-	std::string itemName = itemJSON["itemName"];
-	std::string subjectName = itemJSON["subjectName"];
-	std::string itemDescription = itemJSON["itemDescription"];
-
-	auto item = new Item(itemID, itemName, itemDescription, subjectName);
-	data->items.push_back(item);
-}
-*/
-
 
 void writeObjectsJSONFile(gameData *data) {
 	std::string objectsFilePath = "../resources/objects.json";
@@ -124,13 +38,46 @@ void writeObjectsJSONFile(gameData *data) {
 	}
 }
 
+void readObjectsJSONFile(gameData *data) {
+	std::string objectsFilePath = "../resources/objects.json";
+	std::ifstream objectsFile(objectsFilePath);
+	if (!objectsFile.is_open()) {
+		std::cout << "Error opening file " << objectsFilePath << std::endl;
+		return;
+	}
+	nlohmann::json objectsJSON;
+	objectsFile >> objectsJSON;
+	for(const auto& object : objectsJSON) {
+		if(object["type"] == "item") {
+			Item* item = new Item(object["objectID"], object["itemName"], object["itemDescription"], object["subjectName"]);
+			data->globalObjects.push_back(item);
+		}
+		else if(object["type"] == "location") {
+			Location* location = new Location(object["objectID"], object["locationName"], object["locationDescription"], object["subjectName"], object["connectedLocationsIDs"], object["localItemsIDs"]);
+			data->globalObjects.push_back(location);
+		}
+		else if(object["type"] == "door") {
+			Door* door = new Door(object["objectID"], object["doorName"], object["doorDescription"], object["subjectName"], object["location1ID"], object["location2ID"], object["keyCode"], object["lockedStatus"]);
+			data->globalObjects.push_back(door);
+		}
+		else if(object["type"] == "key") {
+			Key* key = new Key(object["objectID"], object["itemName"], object["itemDescription"], object["subjectName"], object["keyCode"]);
+			data->globalObjects.push_back(key);
+		}
+		else {
+			std::cout << "Error reading object from JSON file: " << object["itemName"] << ": " << object["objectID"] << std::endl;
+			continue;
+		}
+	}
+}
+
 std::string itemtoJSON(Item* item) {
 	nlohmann::ordered_json itemJSON;
 	itemJSON["type"] = "item";
 	itemJSON["itemName"] = item->getObjectName();
 	itemJSON["itemDescription"] = item->getObjectDescription();
 	itemJSON["subjectName"] = item->getSubjectName();
-	itemJSON["itemID"] = item->getObjectID();
+	itemJSON["objectID"] = item->getObjectID();
 	return itemJSON.dump(4);
 }
 
@@ -140,7 +87,7 @@ std::string locationtoJSON(Location* location) {
 	locationJSON["locationName"] = location->getObjectName();
 	locationJSON["locationDescription"] = location->getObjectDescription();
 	locationJSON["subjectName"] = location->getSubjectName();
-	locationJSON["locationID"] = location->getObjectID();
+	locationJSON["objectID"] = location->getObjectID();
 	locationJSON["connectedLocationsIDs"] = location->getConnectedLocationsIDs();
 	locationJSON["localItemsIDs"] = location->getLocalItemsIDs();
 	return locationJSON.dump(4);
@@ -152,21 +99,21 @@ std::string doortoJSON(Door* door) {
 	doorJSON["doorName"] = door->getObjectName();
 	doorJSON["doorDescription"] = door->getObjectDescription();
 	doorJSON["subjectName"] = door->getSubjectName();
-	doorJSON["doorID"] = door->getObjectID();
-	doorJSON["location1ID"] = door->getLocation1()->getObjectID();
-	doorJSON["location2ID"] = door->getLocation2()->getObjectID();
-	doorJSON["keyID"] = door->getLockID();
+	doorJSON["objectID"] = door->getObjectID();
+	doorJSON["location1ID"] = door->getLocation1ID();
+	doorJSON["location2ID"] = door->getLocation2ID();
+	doorJSON["keyCode"] = door->getLockID();
 	doorJSON["lockedStatus"] = door->isLocked();
 	return doorJSON.dump(4);
 }
 std::string keytoJSON(Key* key) {
 	nlohmann::ordered_json keyJSON;
 	keyJSON["type"] = "item";
-	keyJSON["itemName"] = key->getObjectName();
-	keyJSON["itemDescription"] = key->getObjectDescription();
+	keyJSON["keyName"] = key->getObjectName();
+	keyJSON["keyDescription"] = key->getObjectDescription();
 	keyJSON["subjectName"] = key->getSubjectName();
-	keyJSON["itemID"] = key->getObjectID();
-	keyJSON["keyID"] = key->getKeyID();
+	keyJSON["objectID"] = key->getObjectID();
+	keyJSON["keyCode"] = key->getkeyCode();
 	return keyJSON.dump(4);
 }
 }
