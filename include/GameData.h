@@ -7,6 +7,7 @@
 #include "Objects/Location.h"
 #include "Objects/Item.h"
 #include "Character.h"
+#include <iostream>
 
 namespace WG {
 struct gameData {
@@ -15,10 +16,19 @@ struct gameData {
 	Character *player{};
 	Location *currentLocation{};
 	std::vector<Object*> localObjects;
-	std::vector<Item*> items;
-	std::vector<Location*> locations;
+	std::vector<Object*> globalObjects;
 	std::map<std::string, std::vector<std::map<std::string, std::vector<std::string>>>> actionObjectIndirectObjectMap;
 	//          action name,                      object name,       indirect object name
 	std::map<std::string, action> actions;
+
+	std::map<int, Object*> IDObjectMap;
+
+	void addObjectID(Object* object) {
+		if(IDObjectMap.find(object->getObjectID()) != IDObjectMap.end()) {
+			std::cout << "Duplicate ID found: " << object->getObjectName() << ": " << object->getObjectID() << std::endl;
+			exit(1);
+		}
+		IDObjectMap[object->getObjectID()] = object;
+	}
 };
 }
