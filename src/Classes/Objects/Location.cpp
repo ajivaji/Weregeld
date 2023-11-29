@@ -9,6 +9,17 @@
 
 namespace WG {
 
+Location::Location(int objectID, std::string locationName, std::string subjectName,
+                   std::string locationDescription, std::vector<int> connectedIDs, std::vector<int> localItemsIDs)
+		: Object(objectID,
+		         std::move(locationName),
+		         std::move(locationDescription),
+		         std::move(subjectName)) {
+	this->connectedLocationsIDs = std::move(connectedIDs);
+	this->localItemsIDs = std::move(localItemsIDs);
+	this->type = objectType::location;
+}
+
 bool Location::hasConnection(Location *queriedLocation) {
 	for (const auto &location: connectedLocations) {
 		if (location == queriedLocation) {
@@ -33,17 +44,6 @@ void Location::disconnectLocation(Location *location) {
 
 std::vector<int> Location::getConnectedLocationsIDs() {
 	return connectedLocationsIDs;
-}
-
-Location::Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName,
-                   std::string locationDescription, std::vector<int> localItemsIDs)
-				   : Object(locationID,
-							std::move(locationName),
-							std::move(locationDescription),
-							std::move(subjectName)) {
-	this->connectedLocationsIDs = std::move(connectedIDs);
-	this->localItemsIDs = std::move(localItemsIDs);
-	this->type = objectType::location;
 }
 
 bool Location::hasObject(const std::string &objectName, Object* &outObject) {
@@ -78,6 +78,7 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 
 	void Location::addItem(Item *item) {
 		localItems.push_back(item);
+		objects.push_back(item);
 	}
 
 	void Location::removeItem(Item *item) {
@@ -85,6 +86,7 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 			if (inventoryObject == item) {
 				localItems.erase(std::remove(localItems.begin(), localItems.end(), item),
 				                 localItems.end());
+				objects.erase(std::remove(objects.begin(), objects.end(), item), objects.end());
 				break;
 			}
 		}
@@ -99,6 +101,9 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 		return connectedLocations;
 	}
 
+std::vector<Object *> Location::getObjects() {
+	return objects;
+}
 
 
 }
