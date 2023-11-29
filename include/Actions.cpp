@@ -76,7 +76,7 @@ void doTake(gameData *data, Object* object = nullptr, Object* indirectObject = n
 		return;
 	}
 	data->player->addItem(item);
-	data->currentLocation->removeItem(item);
+	data->currentLocation->removeObject(item);
 }
 
 void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = nullptr) {
@@ -90,7 +90,7 @@ void doDrop(gameData *data, Object* object = nullptr, Object* indirectObject = n
 		std::cout << "You don't have that!" << std::endl;
 		return;
 	}
-	data->currentLocation->addItem(item);
+	data->currentLocation->addObject(item);
 	data->player->removeItem(item);
 	std::cout << "You dropped " << item->getObjectName() << std::endl;
 	std::cout << "New inventory size: " << data->player->getInventory().size() << std::endl;

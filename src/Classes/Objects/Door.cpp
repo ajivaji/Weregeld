@@ -31,5 +31,21 @@ Location *Door::getLocation2() const {
 	return location2;
 }
 
+void Door::setLocation1(Location *location) {
+	location1 = location;
+}
+
+void Door::setLocation2(Location *location) {
+	location2 = location;
+}
+
+int Door::getLocation1ID() const {
+	return location1ID;
+}
+
+int Door::getLocation2ID() const {
+	return location2ID;
+}
+
 
 }

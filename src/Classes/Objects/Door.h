@@ -26,11 +26,21 @@ public:
 
 	void lockUnlock(const Key &key) override;
 
+	void setLocation1(Location* location);
+
+	void setLocation2(Location* location);
+
+	int getLocation1ID() const;
+
+	int getLocation2ID() const;
+
 	Location* getLocation1() const;
 
 	Location* getLocation2() const;
 
 private:
+	int location1ID;
+	int location2ID;
 	Location* location1;
 	Location* location2;
 };
