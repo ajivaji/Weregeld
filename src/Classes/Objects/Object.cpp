@@ -13,7 +13,7 @@ namespace WG {
 		this->subjectName = std::move(subjectName);
 	}
 
-	int Object::getObjectID() {
+	int Object::getObjectID() const {
 		return objectID;
 	}
 
@@ -28,4 +28,19 @@ namespace WG {
 	std::string Object::getSubjectName() {
 		return subjectName;
 	}
+
+objectType Object::getObjectType() const {
+	return type;
+}
+
+
+//objects should have descriptions that change based on the game state. This function can be overridden by subclasses
+	//ex: locations having different descriptions based on where they are viewed from.
+	//ex: doors being described as either closed, or leading to a location, depending on whether or not it is locked.
+//	std::string Object::getContextualDescription(gameData *gameData) {
+//		std::string contextualDescription = objectDescription;
+//
+//
+//		return contextualDescription;
+//	}
 }

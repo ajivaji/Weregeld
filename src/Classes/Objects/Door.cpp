@@ -31,16 +31,5 @@ Location *Door::getLocation2() const {
 	return location2;
 }
 
-std::string Door::toJSON() {
-	nlohmann::json doorJSON;
-	doorJSON["doorName"] = this->getObjectName();
-	doorJSON["doorDescription"] = this->getObjectDescription();
-	doorJSON["subjectName"] = this->getSubjectName();
-	doorJSON["doorID"] = this->getObjectID();
-	doorJSON["location1ID"] = this->getLocation1()->getObjectID();
-	doorJSON["location2ID"] = this->getLocation2()->getObjectID();
-	doorJSON["keyID"] = this->getLockID();
-	doorJSON["lockedStatus"] = this->isLocked();
-	return doorJSON.dump();
-}
+
 }

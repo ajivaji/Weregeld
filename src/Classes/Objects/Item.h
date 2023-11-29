@@ -13,8 +13,6 @@ public:
 
 	Item(const Item& item);
 
-	std::string toJSON();
-
 private:
 
 };

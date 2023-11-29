@@ -43,6 +43,7 @@ Location::Location(int locationID, std::vector<int> connectedIDs, std::string lo
 							std::move(subjectName)) {
 	this->connectedLocationsIDs = std::move(connectedIDs);
 	this->localItemsIDs = std::move(localItemsIDs);
+	this->type = objectType::location;
 }
 
 bool Location::hasObject(const std::string &objectName, Object* &outObject) {
@@ -98,16 +99,7 @@ bool Location::hasObject(const std::string &objectName, Object* &outObject) {
 		return connectedLocations;
 	}
 
-std::string Location::toJSON() {
-	nlohmann::json locationJSON;
-	locationJSON["locationName"] = this->getObjectName();
-	locationJSON["locationDescription"] = this->getObjectDescription();
-	locationJSON["subjectName"] = this->getSubjectName();
-	locationJSON["locationID"] = this->getObjectID();
-	locationJSON["connectedLocationsIDs"] = this->getConnectedLocationsIDs();
-	locationJSON["localItemsIDs"] = this->getLocalItemsIDs();
-	return locationJSON.dump();
-}
+
 
 }
 /*std::map<std::string, std::vector<std::string>> Location::getActionActionablesmap() {

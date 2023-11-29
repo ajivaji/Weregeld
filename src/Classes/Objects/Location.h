@@ -13,8 +13,8 @@
 namespace WG {
 class Location : public Object {
 public:
-	Location(int locationID, std::vector<int> connectedIDs, std::string locationName, std::string subjectName,
-	         std::string locationDescription, std::vector<int> localItemsIDs);
+	Location(int locationID, std::vector<int> connectedIDs, std::string locationName,
+	         std::string locationDescription, std::string subjectName, std::vector<int> localItemsIDs);
 
 	bool hasConnection(Location *queriedLocation);
 
@@ -39,8 +39,6 @@ public:
 	void addItem(Item *item);
 
 	void removeItem(Item *item);
-
-	std::string toJSON();
 
 private:
 	std::vector<int> connectedLocationsIDs;

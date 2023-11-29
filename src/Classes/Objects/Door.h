@@ -16,7 +16,9 @@ public:
 	Door(const int &objectId, std::string objectName, std::string objectDescription, std::string subjectName,
 	     Location *location1, Location *location2, int keyID, bool lockedStatus)
 		 : Object(objectId, std::move(objectName), std::move(objectDescription), std::move(subjectName)),
-		 location1(location1), location2(location2), Unlockable(keyID, lockedStatus) {};
+		 location1(location1), location2(location2), Unlockable(keyID, lockedStatus){
+		this->type = objectType::door;
+	};
 
 	int getLockID() const override;
 
@@ -27,8 +29,6 @@ public:
 	Location* getLocation1() const;
 
 	Location* getLocation2() const;
-
-	std::string toJSON();
 
 private:
 	Location* location1;
