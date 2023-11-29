@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "../../include/Actions.h"
 #include "../../include/JSONReader.h"
+#include "Objects/Door.h"
 
 namespace WG {
 
@@ -38,29 +39,41 @@ void Game::initGame() {
 			{"inventory", &doInventory}
 	};
 
-	readLocationsJSONFile(_gameData);
-    readItemsJSONFile(_gameData);
-	for (auto &location : _gameData->locations) {
-		for (auto &locationID : location->getConnectedLocationsIDs()) {
-			for (auto &location2 : _gameData->locations) {
-				if (location2->getObjectID() == locationID) {
-					location->connectLocation(location2);
-					break;
-				}
+
+
+
+
+	Location *location1 = new Location(0, "Location1", "This is location 1. Testing",
+									   "location1", std::vector<int>{1, 100});
+	Location *location2 = new Location(1, "Location2","This is location 2.",
+									   "location2", std::vector<int>{0, 200});
+	Location *location3 = new Location(2, "Location3","This is location 3.",
+									   "location3", std::vector<int>{200});
+	_gameData->globalObjects.push_back(location1);
+	_gameData->globalObjects.push_back(location2);
+	_gameData->globalObjects.push_back(location3);
+
+	Door *door = new Door(200, "Door", "This is a door.", "door", 2, 3, 123, true);
+	_gameData->globalObjects.push_back(door);
+	Key *key = new Key(100, "Key", "This is a key.", "key", 123);
+	_gameData->globalObjects.push_back(key);
+	//fill map with objects and IDs
+	for(auto &object : _gameData->globalObjects) {
+		_gameData->addObjectID(object);
+	}
+
+	for(auto &object : _gameData->globalObjects) {
+		if(object->getObjectType() == objectType::location) {
+			auto location = dynamic_cast<Location*>(object);
+			for(const auto &objectID : location->getObjectIDs()) {
+				location->addObject(_gameData->IDObjectMap[objectID]);
 			}
-		}
-		for(auto &itemID : location->getLocalItemsIDs()) {
-			for(auto &item : _gameData->items) {
-		        if(item->getObjectID() == itemID) {
-					auto newitem = new Item(<#initializer#>, std::string(), std::string(), std::string(), *item);
-		            location->addItem(newitem);
-		            break;
-		        }
-		    }
 		}
 	}
 
-	Game::getInstance().setLocation(_gameData->locations[0]);
+	writeObjectsJSONFile(_gameData);
+
+	Game::getInstance().setLocation(dynamic_cast<Location*>(_gameData->globalObjects[0]));
 
 }
 
@@ -149,11 +162,8 @@ void Game::updateLocalObjects() {
 	for(auto &item : _gameData->player->getInventory()) {
 		_gameData->localObjects.push_back(item);
 	}
-	for(auto &item : _gameData->currentLocation->getLocalItems()) {
-		_gameData->localObjects.push_back(item);
-	}
-	for(auto &location : _gameData->currentLocation->getConnectedLocations()) {
-		_gameData->localObjects.push_back(location);
+	for(auto &object : _gameData->currentLocation->getObjects()) {
+		_gameData->localObjects.push_back(object);
 	}
 }
 
